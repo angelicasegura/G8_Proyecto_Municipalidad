@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conociendo a nuestras Ecoempresarias</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <!-- Bootstrap CSS (FALTABA ESTO) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- NAVEGACIÓN -->
+    <nav>
+        <div class="nav-container">
+            <a href="/index.html" class="logo">
+                <img src="/imagenes/logo.png" alt="Logo" class="logo-img">
+                Ecoempresarias
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Emprendedores</a></li>
+                <li><a href="#entrepreneurs">Productos</a></li>
+                <li><a href="#contact">Carrito</a></li>
+                <li><a href="/eventos.html">Eventos</a></li>
+                <li><a href="/Productos/entregasYseguimientos.html">Entregas y seguimientos</a></li>
+                <li><a href="#contact">Mapas</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Administrador
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Usuarios</a></li>
+
+                        <li><a class="dropdown-item" href="#">Gestion de Roles</a></li>
+                        <li><a class="dropdown-item" href="#">Revisión de productos</a></li>
+                        <li><a class="dropdown-item" href="/Municipalidad/solucitudes.html">Aprobacion de
+                                solicitudes</a></li>
+                        <li><a class="dropdown-item" href="#">Sistema de Inteligencia Municipal</a></li>
+                        <li><a class="dropdown-item" href="#">Analisis de sectores</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Emprendedor
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Inventario</a></li>
+
+                        <li><a class="dropdown-item" href="/Analisis/analiticasDelNegocio.html">Analiticas del negocio</a></li>
+                        <li><a class="dropdown-item" href="/Eventos/misEventos.html">Mis Eventos</a></li>
+                    </ul>
+                </li>
+                <li><a href="#contact">Iniciar Sesión</a></li>
+
+            </ul>
+        </div>
+    </nav>
+
+
+
+
+    <section id="features" class="features">
+        <div class="section-container">
+            <h2 class="section-title">Eventos Ecoempresariales</h2>
+            <p>Descubre actividades, ferias, capacitaciones y oportunidades creadas para nuestros emprendedores.</p>
+            <div>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearEvento">
+                    Crear Evento
+                </button>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Feria Verde</h3>
+                    <p class="date">📅 25 Feb 2025</p>
+                    <p class="location">📍 Parque Central</p>
+                    <p class="description">Empresas comprometidas con prácticas ambientales responsables y la protección
+                        del planeta.
+                    </p>
+                    <a href="detallesEvento.html" class="btn btn-primary">Ver detalles</a>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <h3>Taller: Reciclaje eficiente</h3>
+                    <p class="date">📅 10 Mar 2025</p>
+                    <p class="location">📍 Centro Comunitario</p>
+                    <p class="description">Aprende técnicas prácticas para reciclar en casa y reducir tu huella
+                        ecológica.
+                    </p>
+                    <a href="detallesEvento.html" class="btn btn-primary">Ver detalles</a>
+                    <a href="reservarEvento.html" class="btn btn-info">Reservar</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>Sobre Nosotros</h4>
+                    <ul>
+                        <li><a href="#">Misión</a></li>
+                        <li><a href="#">Visión</a></li>
+                        <li><a href="#">Historia</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Recursos</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Capacitación</a></li>
+                        <li><a href="#">Documentos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="mailto:info@ecoempresarias.mx">info@ecoempresarias.mx</a></li>
+                        <li><a href="tel:+525555555555">+52 (555) 555-5555</a></li>
+                        <li><a href="#">Redes Sociales</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Conociendo a Nuestras Ecoempresarias. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ========== Crear Evento========== -->
+
+
+    <div class="modal fade" id="modalCrearEvento" tabindex="-1" aria-labelledby="modalCrearEventoLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCrearEventoLabel">Crear Nuevo Evento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="CrearEvento">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Descripcion</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tipo de Evento</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label class="form-label">Fecha</label>
+                            <input type="date" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Lugar</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Horario</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Cupos</label>
+                            <input type="number" class="form-control" required>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success" form="formCrearEvento">Guardar Evento</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+
+
+</html>
