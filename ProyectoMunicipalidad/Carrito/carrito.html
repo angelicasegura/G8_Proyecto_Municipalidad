@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conociendo a nuestras Ecoempresarias</title>
+    <link rel="stylesheet" href="/styles/styles.css">
+    <!-- Bootstrap CSS (FALTABA ESTO) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- NAVEGACIÓN -->
+    <nav>
+        <div class="nav-container">
+            <a href="/index.html" class="logo">
+                <img src="/imagenes/logo.png" alt="Logo" class="logo-img">
+                Ecoempresarias
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">Emprendedores</a></li>
+                <li><a href="#entrepreneurs">Productos</a></li>
+                <li><a href="#contact">Carrito</a></li>
+                <li><a href="/Eventos/eventos.html">Eventos</a></li>
+                <li><a href="/Productos/entregasYseguimientos.html">Entregas y seguimientos</a></li>
+                <li><a href="#contact">Mapas</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Administrador
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Usuarios</a></li>
+
+                        <li><a class="dropdown-item" href="#">Gestion de Roles</a></li>
+                        <li><a class="dropdown-item" href="#">Revisión de productos</a></li>
+                        <li><a class="dropdown-item" href="/Municipalidad/solucitudes.html">Aprobacion de
+                                solicitudes</a></li>
+                        <li><a class="dropdown-item" href="#">Sistema de Inteligencia Municipal</a></li>
+                        <li><a class="dropdown-item" href="#">Analisis de sectores</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Emprendedor
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Inventario</a></li>
+
+                        <li><a class="dropdown-item" href="/Analisis/analiticasDelNegocio.html">Analiticas del
+                                negocio</a></li>
+                        <li><a class="dropdown-item" href="/Eventos/misEventos.html">Mis Eventos</a></li>
+                    </ul>
+                </li>
+                <li><a href="#contact">Iniciar Sesión</a></li>
+
+            </ul>
+        </div>
+    </nav>
+
+
+
+
+
+    <div class="container mt-5">
+
+       <div class="container mb-3">
+                <div class="row">
+                    <div class="col-md-12 mt-4">
+                        <a href="/index.html" class="btn btn-primary">
+                            Seguir comprando
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container container-main-carrito">
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col" style="width: 25%;">Producto</th>
+                                <th scope="col" style="width: 15%;"> Imagen </th>
+                                <th scope="col" style="width: 15%;">Cantidad </th>
+                                <th scope="col" style="width: 15%;">Precio Unitario</th>
+                                <th scope="col" style="width: 15%;">Total</th>
+                                <th scope="col" style="width: 15%;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <!-- Nombre del producto -->
+                                <td><span >Pulsera de cuero Mujer Hang</span></td>
+
+                                <!-- Imagen del producto -->
+                                <td>
+                                    <img src="https://cdn-media.glamira.com/media/product/newgeneration/view/1/sku/hang-tria/alloycolour/yellow/leather/camel.jpg"  width="50px" height="50px" alt="Producto"/>
+                                </td>
+
+                                <!-- Cantidad -->
+                                <td>
+                                    <div class="input-group quantity-controls mx-auto">
+                                        <span th:text=>2</span>
+                                    </div>
+                                </td>
+
+                                <!-- Precio unitario -->
+                                <td class="text-end fw-bold">
+                                    ₡<span>8000</span>
+                                </td>
+
+                                <!-- Total por producto -->
+                                <td class="text-end fw-bold">
+                                    ₡<span th:text=>16000</span>
+                                </td>
+
+                                <!-- Acciones -->
+                                <td>
+                                    <a href="/Carrito/eliminarCarrito.html" class="btn btn-danger btn-sm">
+                                        Eliminar
+                                    </a>
+                                    <a class="btn btn-success btn-sm ms-1" href="/Carrito/editarCarrito.html">
+                                        Editar
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <!-- Nombre del producto -->
+                                <td><span >Anillo</span></td>
+
+                                <!-- Imagen del producto -->
+                                <td>
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy2IEIxJo2eYH1bYUqCHgbe6ggIY6t-MI6-A&s"  width="50px" height="50px" alt="Producto"/>
+                                </td>
+
+                                <!-- Cantidad -->
+                                <td>
+                                    <div class="input-group quantity-controls mx-auto">
+                                        <span th:text=>1</span>
+                                    </div>
+                                </td>
+
+                                <!-- Precio unitario -->
+                                <td class="text-end fw-bold">
+                                    ₡<span>9000</span>
+                                </td>
+
+                                <!-- Total por producto -->
+                                <td class="text-end fw-bold">
+                                    ₡<span th:text=>9000</span>
+                                </td>
+
+                                <!-- Acciones -->
+                                <td>
+                                    <a  class="btn btn-danger btn-sm">
+                                        Eliminar
+                                    </a>
+                                    <a class="btn btn-success btn-sm ms-1">
+                                        Editar
+                                    </a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3"></td>
+                                <th class="text-end">Total de la compra</th>
+                                <td class="text-end fw-bold">₡<span>25000</span></td>
+                                <td>
+                                    <form >
+
+                                        <div th:if="${not #lists.isEmpty(listaCarrito)}">
+                                            <button type="button" class="btn btn-info btn-sm">
+                                                Facturar
+                                            </button>
+                                        </div>
+
+                                    </form>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-md-6 mb-3"></div>
+
+                    <div class="col-md-6">
+                        <div class="p-3 price-total-summary">
+                            <div class="row total-summary-row">
+                                <div class="col-6">Total productos</div>
+                                <div class="col-6 text-end fw-bold">₡<span>25000</span></div>
+                            </div>
+                            <div class="row total-summary-row">
+                                <div class="col-6">TOTAL</div>
+                                <div class="col-6 text-end fw-bold">₡<span>25800</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+    </div>
+
+
+
+
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>Sobre Nosotros</h4>
+                    <ul>
+                        <li><a href="#">Misión</a></li>
+                        <li><a href="#">Visión</a></li>
+                        <li><a href="#">Historia</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Recursos</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Capacitación</a></li>
+                        <li><a href="#">Documentos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="mailto:info@ecoempresarias.mx">info@ecoempresarias.mx</a></li>
+                        <li><a href="tel:+525555555555">+52 (555) 555-5555</a></li>
+                        <li><a href="#">Redes Sociales</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Conociendo a Nuestras Ecoempresarias. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+
+</body>
+
+
+</html>
