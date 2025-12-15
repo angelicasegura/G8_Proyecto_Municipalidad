@@ -199,117 +199,169 @@ function logoutUser(redirectTo = "../Usuarios/login.html") {
   clearSession();
   window.location.href = redirectTo;
 }
-// =====================================
-// NOTIFICACIONES
-// =====================================
-const NOTIF_KEY = "eco_notifications";
 
-function _getAllNotifs() {
-  return JSON.parse(localStorage.getItem(NOTIF_KEY) || "[]");
-}
+// =====================================
+// NOTIFICACIONES (para Admin / Emprendedor / Comprador)
+// =====================================
 
-function _saveAllNotifs(list) {
-  localStorage.setItem(NOTIF_KEY, JSON.stringify(list));
-}
+const NOTIF_KEY = "eco_notifs";
 
 function seedNotifications() {
   const existing = JSON.parse(localStorage.getItem(NOTIF_KEY) || "null");
-  if (existing && Array.isArray(existing) && existing.length > 0) return;
+  if (existing && Array.isArray(existing)) return;
 
-  // Asegura que existan users (porque usamos ids)
-  const users = getUsers();
+  const demo = [
+    // Admin
+    {
+      id: 1,
+      paraRol: "Administrador",
+      titulo: "Nueva solicitud pendiente",
+      mensaje: "Hay una solicitud de publicación pendiente de revisión.",
+      tipo: "Aprobación",
+      leida: false,
+      fecha: new Date().toISOString()
+    },
+    // Emprendedor
+    {
+      id: 2,
+      paraRol: "Emprendedor",
+      titulo: "Producto en revisión",
+      mensaje: "Tu producto fue enviado y está pendiente de aprobación por el administrador.",
+      tipo: "Productos",
+      leida: false,
+      fecha: new Date().toISOString()
+    },
+    // Comprador
+    {
+      id: 3,
+      paraRol: "Comprador",
+      titulo: "Bienvenida",
+      mensaje: "Tu cuenta fue creada exitosamente. ¡Explora los emprendimientos!",
+      tipo: "Sistema",
+      leida: false,
+      fecha: new Date().toISOString()
+    }
+  ];
 
-  const admin = users.find(u => u.rol === "Administrador");
-  const empr = users.find(u => u.rol === "Emprendedor");
-  const comp = users.find(u => u.rol === "Comprador");
-
-  const now = new Date();
-  const iso = (d) => d.toISOString();
-
-  const sample = [];
-
-  if (admin) {
-    sample.push(
-      { id: 1, userId: admin.id, rol: "Administrador", tipo: "APROBACION", titulo: "Nueva solicitud pendiente", mensaje: "Hay un emprendimiento pendiente de revisión.", fechaISO: iso(new Date(now.getTime() - 1000*60*60*2)), leida: false },
-      { id: 2, userId: admin.id, rol: "Administrador", tipo: "REVISION_PRODUCTO", titulo: "Producto por aprobar", mensaje: "Un emprendedor envió un producto para aprobación.", fechaISO: iso(new Date(now.getTime() - 1000*60*30)), leida: false }
-    );
-  }
-
-  if (empr) {
-    sample.push(
-      { id: 3, userId: empr.id, rol: "Emprendedor", tipo: "ESTADO_EMPRENDIMIENTO", titulo: "Tu emprendimiento está en revisión", mensaje: "El administrador revisará tu solicitud pronto.", fechaISO: iso(new Date(now.getTime() - 1000*60*80)), leida: false },
-      { id: 4, userId: empr.id, rol: "Emprendedor", tipo: "PRODUCTO_OBSERVADO", titulo: "Producto observado", mensaje: "Hay observaciones en uno de tus productos.", fechaISO: iso(new Date(now.getTime() - 1000*60*10)), leida: true }
-    );
-  }
-
-  if (comp) {
-    sample.push(
-      { id: 5, userId: comp.id, rol: "Comprador", tipo: "EVENTO", titulo: "Nuevo evento disponible", mensaje: "Hay un nuevo evento publicado en la plataforma.", fechaISO: iso(new Date(now.getTime() - 1000*60*120)), leida: false },
-      { id: 6, userId: comp.id, rol: "Comprador", tipo: "CARRITO", titulo: "Recordatorio de carrito", mensaje: "Tienes productos pendientes en tu carrito.", fechaISO: iso(new Date(now.getTime() - 1000*60*15)), leida: true }
-    );
-  }
-
-  _saveAllNotifs(sample);
+  localStorage.setItem(NOTIF_KEY, JSON.stringify(demo));
 }
 
-function getMyNotifications() {
+function getNotifications() {
   seedNotifications();
-  const s = getSession();
-  if (!s) return [];
-  return _getAllNotifs()
-    .filter(n => n.userId === s.id)
-    .sort((a, b) => new Date(b.fechaISO) - new Date(a.fechaISO));
+  return JSON.parse(localStorage.getItem(NOTIF_KEY) || "[]");
 }
 
-function countUnreadNotifications() {
-  const s = getSession();
-  if (!s) return 0;
-  return getMyNotifications().filter(n => !n.leida).length;
+function saveNotifications(list) {
+  localStorage.setItem(NOTIF_KEY, JSON.stringify(list));
 }
 
-function markNotificationRead(notifId) {
-  const s = getSession();
-  if (!s) return { ok: false, msg: "Debe iniciar sesión." };
-
-  const all = _getAllNotifs();
-  const idx = all.findIndex(n => n.id === notifId && n.userId === s.id);
-  if (idx === -1) return { ok: false, msg: "Notificación no encontrada." };
-
-  all[idx].leida = true;
-  _saveAllNotifs(all);
-  return { ok: true };
+function nextNotifId(list) {
+  const maxId = list.reduce((max, n) => Math.max(max, Number(n.id) || 0), 0);
+  return maxId + 1;
 }
 
-function markAllNotificationsRead() {
-  const s = getSession();
-  if (!s) return { ok: false, msg: "Debe iniciar sesión." };
-
-  const all = _getAllNotifs().map(n => {
-    if (n.userId === s.id) n.leida = true;
-    return n;
-  });
-  _saveAllNotifs(all);
-  return { ok: true };
-}
-
-// Para crear notificaciones desde otros módulos
-function createNotificationForUser(userId, rol, tipo, titulo, mensaje) {
-  seedNotifications();
-  const all = _getAllNotifs();
-  const nextId = all.length ? Math.max(...all.map(x => x.id)) + 1 : 1;
-
+/**
+ * Crea una notificación para un rol (Admin/Emprendedor/Comprador)
+ */
+function addNotification(paraRol, titulo, mensaje, tipo = "General") {
+  const list = getNotifications();
   const notif = {
-    id: nextId,
-    userId,
-    rol,
-    tipo,
+    id: nextNotifId(list),
+    paraRol,
     titulo,
     mensaje,
-    fechaISO: new Date().toISOString(),
-    leida: false
+    tipo,
+    leida: false,
+    fecha: new Date().toISOString()
+  };
+  list.unshift(notif);
+  saveNotifications(list);
+  return notif;
+}
+
+/**
+ * Cuenta no leídas del rol del usuario logueado
+ */
+function countUnreadNotifications() {
+  const session = getSession();
+  if (!session) return 0;
+  const list = getNotifications();
+  return list.filter(n => n.paraRol === session.rol && !n.leida).length;
+}
+
+/**
+ * Obtiene notificaciones del rol actual
+ */
+function getMyNotifications() {
+  const session = getSession();
+  if (!session) return [];
+  return getNotifications().filter(n => n.paraRol === session.rol);
+}
+
+function markNotificationRead(id) {
+  const list = getNotifications();
+  const idx = list.findIndex(n => Number(n.id) === Number(id));
+  if (idx >= 0) {
+    list[idx].leida = true;
+    saveNotifications(list);
+  }
+}
+
+function markAllMyNotificationsRead() {
+  const session = getSession();
+  if (!session) return;
+  const list = getNotifications();
+  for (const n of list) {
+    if (n.paraRol === session.rol) n.leida = true;
+  }
+  saveNotifications(list);
+}
+
+// =====================================
+// HOOKS a Login/Registro (para generar notifs)
+// =====================================
+
+const __loginUserOriginal = loginUser;
+loginUser = function(email, password) {
+  const result = __loginUserOriginal(email, password);
+  if (result && result.ok) {
+    // Ejemplo: notificación al iniciar sesión
+    addNotification(result.user.rol, "Inicio de sesión", "Has iniciado sesión correctamente.", "Sistema");
+  }
+  return result;
+};
+
+//función de registro
+function registerUser(nombre, email, password, rol = "Comprador") {
+  const users = getUsers();
+
+  if (!nombre || !email || !password) {
+    return { ok: false, msg: "Completa todos los campos." };
+  }
+
+  if (users.some(u => u.email === email)) {
+    return { ok: false, msg: "El correo ya está registrado." };
+  }
+
+  const newUser = {
+    id: users.length + 1,
+    nombre,
+    email,
+    password,
+    rol,
+    activo: true
   };
 
-  all.push(notif);
-  _saveAllNotifs(all);
-  return { ok: true, notif };
+  users.push(newUser);
+  saveUsers(users);
+
+  // Notificación de bienvenida
+  addNotification(rol, "Cuenta creada", "Tu cuenta fue creada exitosamente.", "Sistema");
+
+  return { ok: true, user: newUser };
+}
+
+function logoutUser(redirectUrl = "/Usuarios/login.html") {
+  clearSession();
+  window.location.href = redirectUrl;
 }
