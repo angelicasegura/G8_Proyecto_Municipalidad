@@ -28,7 +28,7 @@
                 <li><a href="#contact">Entregas y seguimientos</a></li>
                 <li><a href="#contact">Mapas</a></li>
 
-                <!-- ✅ AGREGADO: Notificaciones (con badge) -->
+                <!-- Notificaciones  -->
                 <li id="navNotificaciones" style="display:none;">
                     <a href="/Notificaciones/notificaciones.html">
                         🔔 Notificaciones <span id="notifBadge" class="badge rounded-pill text-bg-danger">0</span>
@@ -41,9 +41,8 @@
                         Administrador
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Usuarios</a></li>
+                        <li><a class="dropdown-item" href="/Usuarios/Usuarios.html">Usuarios</a></li>
 
-                        <!-- ✅ AGREGADO: ruta real a tu gestión de roles -->
                         <li><a class="dropdown-item" href="/Usuarios/Usuarios.html">Gestion de Roles</a></li>
 
                         <li><a class="dropdown-item" href="#">Gestion de emprendimientos</a></li>
@@ -67,10 +66,10 @@
                     </ul>
                 </li>
 
-                <!-- ✅ AGREGADO: convertir "Iniciar Sesión" en dinámico -->
+                <!-- "Iniciar Sesión" en dinámico -->
                 <li id="navLogin"><a href="/Usuarios/login.html">Iniciar Sesión</a></li>
 
-                <!-- ✅ AGREGADO: botón de cerrar sesión (oculto por defecto) -->
+                <!--  botón de cerrar sesión (oculto por defecto) -->
                 <li id="navLogout" style="display:none;">
                     <a href="#" onclick="handleLogout()">Cerrar Sesión</a>
                 </li>
@@ -136,19 +135,44 @@
         window.location.href = "/Usuarios/login.html";
     }
 
-    function updateNavbarBySession() {
+    // Define qué menús ve cada rol
+    function applyRoleMenus(session) {
         const navAdmin = document.getElementById("navAdmin");
         const navEmp = document.getElementById("navEmprendedor");
+
+        // Por defecto: ocultar ambos (incluye Comprador)
+        if (navAdmin) navAdmin.style.display = "none";
+        if (navEmp) navEmp.style.display = "none";
+
+        if (!session) return;
+
+        // Solo Admin ve Admin
+        if (session.rol === "Administrador" && navAdmin) {
+            navAdmin.style.display = "list-item";
+        }
+
+        // Solo Emprendedor ve Emprendedor
+        if (session.rol === "Emprendedor" && navEmp) {
+            navEmp.style.display = "list-item";
+        }
+
+        // Comprador no ve ninguno (ya queda oculto)
+    }
+
+    function updateNavbarBySession() {
         const navLogin = document.getElementById("navLogin");
         const navLogout = document.getElementById("navLogout");
         const navNotif = document.getElementById("navNotificaciones");
         const notifBadge = document.getElementById("notifBadge");
 
-        const session = (typeof getSession === "function") ? getSession() : JSON.parse(localStorage.getItem("eco_session") || "null");
+        const session = (typeof getSession === "function")
+            ? getSession()
+            : JSON.parse(localStorage.getItem("eco_session") || "null");
 
-        // Por defecto: ocultar menús protegidos
-        if (navAdmin) navAdmin.style.display = "none";
-        if (navEmp) navEmp.style.display = "none";
+        // Aplica visibilidad de menús por rol (Admin/Emprendedor/Comprador)
+        applyRoleMenus(session);
+
+        // Por defecto: ocultar notificaciones
         if (navNotif) navNotif.style.display = "none";
 
         // Si NO hay sesión
@@ -161,13 +185,10 @@
         // Si hay sesión
         if (navLogin) navLogin.style.display = "none";
         if (navLogout) navLogout.style.display = "list-item";
+
+        // Notificaciones para cualquier rol con sesión 
         if (navNotif) navNotif.style.display = "list-item";
 
-        // Mostrar según rol
-        if (session.rol === "Administrador" && navAdmin) navAdmin.style.display = "list-item";
-        if (session.rol === "Emprendedor" && navEmp) navEmp.style.display = "list-item";
-
-        // Badge notificaciones
         if (notifBadge && typeof countUnreadNotifications === "function") {
             notifBadge.textContent = countUnreadNotifications();
         }
