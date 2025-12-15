@@ -47,7 +47,15 @@
   <script src="../js/auth.js"></script>
 
   <script>
-    
+    // si ya hay sesión activa, opcionalmente redirige
+    document.addEventListener("DOMContentLoaded", function () {
+      const session = (typeof getSession === "function") ? getSession() : null;
+      if (session && session.rol) {
+        // Puedes comentar esto si prefieres permitir registrar aun con sesión
+        window.location.href = "../index.html";
+      }
+    });
+
     document.addEventListener("keydown", function (e) {
       if (e.key === "Enter") {
         // evita si el navegador intenta "enviar"
@@ -62,10 +70,26 @@
       box.classList.remove("d-none");
     }
 
+    // limpiar error al volver a intentar
+    function clearError() {
+      const box = document.getElementById("msg");
+      box.textContent = "";
+      box.classList.add("d-none");
+    }
+
     function registrar() {
       const nombre = document.getElementById("nombre").value.trim();
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value;
+
+      // limpiar error antes de validar
+      clearError();
+
+      // validar campos vacíos
+      if (!nombre || !email || !password) {
+        showError("Debe completar nombre, correo y contraseña.");
+        return;
+      }
 
       if (typeof registerUser === "function") {
         const result = registerUser(nombre, email, password, "Comprador");
